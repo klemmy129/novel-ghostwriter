@@ -1,6 +1,7 @@
 package com.klemmy.novel.ghostwriter.config;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
+import jakarta.jms.JMSException;
+import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -23,17 +24,17 @@ public class ActiveMQMessageReceiverConfig {
   }
 
   @Bean
-  public ActiveMQConnectionFactory receiverActiveMQConnectionFactory() {
+  public ActiveMQConnectionFactory receiverActiveMQConnectionFactory() throws JMSException {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     activeMQConnectionFactory.setBrokerURL(this.messageBusProperties.brokerUrl());
-    activeMQConnectionFactory.setTrustAllPackages(true);
-    activeMQConnectionFactory.setTrustedPackages(List.of("com.klemmy.novelideas.api"));
-
+   // activeMQConnectionFactory.setTrustAllPackages(true);
+   // activeMQConnectionFactory.setTrustedPackages(List.of("com.klemmy.novelideas.api"));
+    activeMQConnectionFactory.setDeserializationWhiteList("com.klemmy.novelideas.service");
     return activeMQConnectionFactory;
   }
 
   @Bean
-  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() throws JMSException {
     DefaultJmsListenerContainerFactory activeMQListenerFactory =  new DefaultJmsListenerContainerFactory();
     activeMQListenerFactory.setConnectionFactory(receiverActiveMQConnectionFactory());
     activeMQListenerFactory.setPubSubDomain(true); // For topics

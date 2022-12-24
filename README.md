@@ -44,9 +44,9 @@ This is also a Java Spring Boot demonstrator for a Rest application, but uses a 
 ## Technology Used
 - Java 17
 - Maven
-- Spring Boot 2.7.4
+- Spring Boot 3.0.1
 - Spring Docs
-- ActiveMQ 5 (Classic)
+- ActiveMQ Artemis
 - Lombok
 - [Certificates](https://github.com/klemmy129/novel-ideas/blob/main/CERTS.md)
 
